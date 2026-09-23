@@ -27,7 +27,6 @@
 #include "freq_meas.h"
 #include "lcd.h"
 #include "custom_chars.h"
-#include "tilt.h"
 
 /* USER CODE END Includes */
 
@@ -131,7 +130,6 @@ int main(void)
 
    // Initialize LCD
    RGB_LCD_Init(&lcd);
-   tilt_init();
    signal_input_init();
 
    // Set a color for the backlight
@@ -163,9 +161,12 @@ int main(void)
 	  // read the latest button push
   	  last_click = GetButton(adcBuffer);
 
-  	  // check the orientation of the device
-  	  //flip = detect_tilt();
-  	  flip = false;
+      if (last_click == BUTTON_SELECT)
+      {
+       flip = true;
+      } else {
+       flip = false;
+      }
 
   	  // Based on the button push, display the correct screen on the LCD
   			switch (currentMenu) {
